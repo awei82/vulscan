@@ -40,7 +40,7 @@ There are the following pre-installed databases available at the moment:
 
 You may execute vulscan with the following argument to use a single database:
 
-    --script-args vulscandb=your_own_database
+    nmap -sV --script=vulscan/vulscan.nse --script-args vulscandb=[DB Name].csv [scan target]
 
 It is also possible to create and reference your own databases. This requires to create a database file, which has the following structure:
 
