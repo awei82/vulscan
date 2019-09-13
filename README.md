@@ -49,22 +49,12 @@ Just execute vulscan like you would by refering to one of the pre-delivered data
 
 ## Update Database
 
-The vulnerability databases are updated and assembled on a regularly basis. To support the latest disclosed vulnerabilities, keep your local vulnerability databases up-to-date.
+Run the following script to get the latest CVE db for Vulnscan
 
-If you want to update your databases, go to the following web site and download these files:
+    cd /utilities/cve_updater
+    sh update.sh
 
-* https://www.computec.ch/projekte/vulscan/download/cve.csv
-* https://www.computec.ch/projekte/vulscan/download/exploitdb.csv
-* https://www.computec.ch/projekte/vulscan/download/openvas.csv
-* https://www.computec.ch/projekte/vulscan/download/osvdb.csv
-* https://www.computec.ch/projekte/vulscan/download/scipvuldb.csv
-* https://www.computec.ch/projekte/vulscan/download/securityfocus.csv
-* https://www.computec.ch/projekte/vulscan/download/securitytracker.csv
-* https://www.computec.ch/projekte/vulscan/download/xforce.csv
-
-Copy the files into your vulscan folder:
-
-    /vulscan/
+The new filename will be cve_[date].csv
 
 ## Version Detection
 
