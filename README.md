@@ -4,8 +4,6 @@
 
 Vulscan is a module which enhances nmap to a vulnerability scanner. The nmap option -sV enables version detection per service which is used to determine potential flaws according to the identified product. The data is looked up in an offline version of VulDB.
 
-![Nmap NSE Vulscan](https://www.computec.ch/projekte/vulscan/introduction/screenshot.png)
-
 ## Installation
 
 Please install the files into the following folder of your Nmap installation:
@@ -14,8 +12,9 @@ Please install the files into the following folder of your Nmap installation:
 
 Clone the GitHub repository like this:
 
-    git clone https://github.com/scipag/vulscan scipag_vulscan
-    ln -s `pwd`/scipag_vulscan /usr/share/nmap/scripts/vulscan    
+    cd /tmp
+    git clone git@github.com:empti/vulscan.git
+    sudo ln -s /tmp/vulscan /usr/share/nmap/scripts/vulscan
 
 ## Usage
 
@@ -40,7 +39,7 @@ There are the following pre-installed databases available at the moment:
 
 You may execute vulscan with the following argument to use a single database:
 
-    --script-args vulscandb=your_own_database
+    nmap -sV --script=vulscan/vulscan.nse --script-args vulscandb=[DB Name].csv [scan target]
 
 It is also possible to create and reference your own databases. This requires to create a database file, which has the following structure:
 
