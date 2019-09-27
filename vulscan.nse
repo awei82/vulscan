@@ -225,7 +225,7 @@ end
 action = function(host, port)
 	local prod = port.version.product	-- product name
 	local ver = port.version.version	-- product version
-	local struct = "[{id}] {title}\n"	-- default report structure
+	local struct = "[{id}] {cvss} - {title}\n"	-- default report structure
 	local db = {}				-- vulnerability database
 	local db_link = ""			-- custom link for vulnerability databases
 	local vul = {}				-- details for the vulnerability
@@ -320,6 +320,7 @@ function find_vulnerabilities(prod, ver, db)
 	local v_title			-- title of vulnerability
 	local v_title_lower		-- title of vulnerability in lowercase for speedup
 	local v_found			-- if a match could be found
+	local v_cvss
 
 	-- Load database
 	local v_entries = read_from_file("scripts/vulscan/" .. db)
@@ -339,6 +340,7 @@ function find_vulnerabilities(prod, ver, db)
 	for i=1, #v_entries, 1 do
 		v_id		= extract_from_table(v_entries[i], 1, ";")
 		v_title		= extract_from_table(v_entries[i], 2, ";")
+		v_cvss      = extract_from_table(v_entries[i], 3, ";")
 
 		if type(v_title) == "string" then
 			v_title_lower = string.lower(v_title)
@@ -354,7 +356,8 @@ function find_vulnerabilities(prod, ver, db)
 							title	= v_title,
 							product	= prod_words[j],
 							version	= "",
-							matches	= 1
+							matches	= 1,
+							cvss = v_cvss
 						}
 					elseif v[#v].id ~= v_id then
 						-- Create new entry
@@ -363,7 +366,8 @@ function find_vulnerabilities(prod, ver, db)
 							title	= v_title,
 							product	= prod_words[j],
 							version	= "",
-							matches	= 1
+							matches	= 1,
+							cvss = v_cvss
 						}
 					else
 						-- Add to current entry
@@ -459,12 +463,14 @@ function report_parsing(v, struct, link)
 	s = string.gsub(s, "\\n", "\n")
 	s = string.gsub(s, "\\t", "\t")
 
+	--stdnse.print_debug(1, table.tostring(v))
 	--vulnerability data (needs to be third)
 	s = string.gsub(s, "{id}", escape(v.id))
 	s = string.gsub(s, "{title}", escape(v.title))
 	s = string.gsub(s, "{matches}", escape(v.matches))
 	s = string.gsub(s, "{product}", escape(v.product))	
 	s = string.gsub(s, "{version}", escape(v.version))
+	s = string.gsub(s, "{cvss}", escape(v.cvss))
 
 	return s
 end
