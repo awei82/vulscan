@@ -7,6 +7,8 @@ import gzip
 import json
 import pandas as pd
 
+OUTPUT_NAME = 'nvd_latest.csv'
+
 # https://nvd.nist.gov/vuln/data-feeds
 cve_file_urls = [
     'https://nvd.nist.gov/feeds/json/cve/1.1/nvdcve-1.1-2019.json.gz',
@@ -32,6 +34,7 @@ cve_file_urls = [
 cve_summary = []
 
 for cve_file in cve_file_urls:
+    print(f'gathering CVEs from {cve_file}...')
     with urllib.request.urlopen(cve_file) as fp:
         gzipped = fp.read()
     cve_blob = json.loads(gzip.decompress(gzipped).decode())
@@ -51,4 +54,5 @@ for cve_file in cve_file_urls:
 
 df = pd.DataFrame(cve_summary)
 
-df.to_csv('nvd_latest.csv',sep=';', index=False)
+df.to_csv(OUTPUT_NAME,sep=';', index=False)
+print(f'results saved to {OUTPUT_NAME}')
