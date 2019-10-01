@@ -2,7 +2,16 @@
 
 ## Introduction
 
-Vulscan is a module which enhances nmap to a vulnerability scanner. The nmap option -sV enables version detection per service which is used to determine potential flaws according to the identified product. The data is looked up in an offline version of VulDB.
+Vulscan is a module which enhances nmap to a vulnerability scanner. 
+The nmap option -sV enables version detection per service which is used to determine potential flaws 
+according to the identified product. 
+~~The data is looked up in an offline version of VulDB.~~
+
+This repo is a fork of the original vulscan script: https://github.com/scipag/vulscan  
+This fork uses the [NIST National Vulnerability Database](https://nvd.nist.gov/vuln/search)
+to link CVEs and CVSS scores to identified service versions.  
+
+This script was tested with nmap version 7.8 - it may not work with older versions.
 
 ## Installation
 
@@ -13,48 +22,28 @@ Please install the files into the following folder of your Nmap installation:
 Clone the GitHub repository like this:
 
     cd /tmp
-    git clone git@github.com:empti/vulscan.git
+    git clone git@github.com:awei82/vulscan.git
     sudo ln -s /tmp/vulscan /usr/share/nmap/scripts/vulscan
 
 ## Usage
 
-You have to run the following minimal command to initiate a simple vulnerability scan:
-
-    nmap -sV --script=vulscan/vulscan.nse www.example.com
-
-## Vulnerability Database
-
-There are the following pre-installed databases available at the moment:
-
-* scipvuldb.csv - https://vuldb.com
-* cve.csv - https://cve.mitre.org
-* securityfocus.csv - https://www.securityfocus.com/bid/
-* xforce.csv - https://exchange.xforce.ibmcloud.com/
-* expliotdb.csv - https://www.exploit-db.com
-* openvas.csv - http://www.openvas.org
-* securitytracker.csv - https://www.securitytracker.com (end-of-life)
-* osvdb.csv - http://www.osvdb.org (end-of-life)
-
-## Single Database Mode
-
 You may execute vulscan with the following argument to use a single database:
 
     nmap -sV --script=vulscan/vulscan.nse --script-args vulscandb=[DB Name].csv [scan target]
+    nmap -sV --script=vulscan/vulscan.nse --script-args vulscandb=nvd_latest.csv www.example.com
+    
 
 It is also possible to create and reference your own databases. This requires to create a database file, which has the following structure:
 
-    <id>;<title>
+    <id>;<title>;<vulnerability_score>
 
-Just execute vulscan like you would by refering to one of the pre-delivered databases. Feel free to share your own database and vulnerability connection with me, to add it to the official repository.
 
 ## Update Database
 
 Run the following script to get the latest CVE db for Vulnscan
 
-    cd /utilities/cve_updater
-    sh update.sh
+    python nist_nvd_download.py
 
-The new filename will be cve_[date].csv
 
 ## Version Detection
 
@@ -84,7 +73,7 @@ The interactive mode helps you to override version detection results for every p
 
 All matching results are printed one by line. The default layout for this is:
 
-    [{id}] {title}\n
+    [{id}] {cvss} - {title}\n
 
 It is possible to use another pre-defined report structure with the following argument:
 
