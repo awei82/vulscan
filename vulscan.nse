@@ -353,7 +353,7 @@ function find_vulnerabilities(prod, ver, db)
 						-- Initiate table
 						v[1] = {
 							id		= v_id,
-							title	= v_title,
+							title	= string.sub(v_title,0,150), -- limit output to 150 chars
 							product	= prod_words[j],
 							version	= "",
 							matches	= 1,
@@ -363,7 +363,7 @@ function find_vulnerabilities(prod, ver, db)
 						-- Create new entry
 						v[#v+1] = {
 							id		= v_id,
-							title	= v_title,
+							title	= string.sub(v_title,0,150), -- limit output to 150 chars
 							product	= prod_words[j],
 							version	= "",
 							matches	= 1,
