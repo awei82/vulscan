@@ -329,6 +329,10 @@ function find_vulnerabilities(prod, ver, db)
 	prod = string.gsub(prod, " httpd", "")
 	prod = string.gsub(prod, " smtpd", "")
 	prod = string.gsub(prod, " ftpd", "")
+    prod = string.gsub(prod, " http", "")
+    prod = string.gsub(prod, " proxy", "")
+    prod = string.gsub(prod, " ftp", "")
+
 
 	local prod_words = stringaux.strsplit(" ", prod)
 
@@ -338,6 +342,11 @@ function find_vulnerabilities(prod, ver, db)
 
 	-- Iterate through the vulnerabilities in the database
 	for i=1, #v_entries, 1 do
+        -- stop at 10 matches
+        if #v >= 10 then
+            break
+        end
+
 		v_id		= extract_from_table(v_entries[i], 1, ";")
 		v_title		= extract_from_table(v_entries[i], 2, ";")
 		v_cvss      = extract_from_table(v_entries[i], 3, ";")
