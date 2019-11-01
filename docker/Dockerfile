@@ -1,20 +1,16 @@
-FROM alpine:latest
+FROM python:3.8.0
 
-RUN apk --update add nmap \
-                     nmap-scripts \
-                     git \
-                     bash \
-                     make automake gcc g++ subversion python3-dev
+RUN apt-get update
+RUN apt-get -y install nmap git
 
 RUN git clone https://github.com/awei82/vulscan.git /usr/share/nmap/scripts/vulscan
 
 WORKDIR /usr/share/nmap/scripts/vulscan
-
-RUN python3 -m pip install -r requirements.txt
+RUN pip install -r requirements.txt
 
 #Update CVE databases
 RUN python3 nist_nvd_download.py
 
-ENTRYPOINT ["nmap"]
+COPY nmap_wrapper.sh .
+ENTRYPOINT ["./nmap_wrapper.sh"]
 CMD ["-h"]
-
