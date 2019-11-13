@@ -326,13 +326,10 @@ function find_vulnerabilities(prod, ver, db)
 	local v_entries = read_from_file("scripts/vulscan/" .. db)
 
 	-- Clean useless dataparts (speeds up search and improves accuracy)
-	prod = string.gsub(prod, " httpd", "")
-	prod = string.gsub(prod, " smtpd", "")
-	prod = string.gsub(prod, " ftpd", "")
-    prod = string.gsub(prod, " http", "")
-    prod = string.gsub(prod, " proxy", "")
-    prod = string.gsub(prod, " ftp", "")
-
+    local exclude_strings = {" httpd"," http"," smtpd"," ftpd"," ftp"," proxy"," web"," app"," server"}
+    for i,v in ipairs(exclude_strings) do
+        prod = string.gsub(prod, v, "")
+    end
 
 	local prod_words = stdnse.strsplit(" ", prod)
 
