@@ -2,7 +2,7 @@
 
 # TODO: also save service + version data
 
-from __future__ import print_function()
+from __future__ import print_function
 import urllib
 import gzip
 import json
