@@ -1,3 +1,4 @@
+# requirements for nist_nvd_download.py
 # requires python3
 
 numpy==1.17.3

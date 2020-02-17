@@ -4,22 +4,26 @@
 # pass in all arguments to nmap as usual, leaving out the output flag.
 # outputs will be saved to results.*, then be printed to STDOUT
 
-rm -f results.gnmap
-rm -f results.xml
+rm -f results*.*
 
-# default to showing help menu
+# default: show help menu
 if [ "$#" -lt 1 ]; then
     nmap -h
     exit
 fi
 
-nmap -oA results $@
+d=$(date "+%Y-%m-%d")
 
-#printf '***printing results.nmap***\n'
-#cat results.nmap
+nmap -oA results_$d $@
 
-printf '\n***printing results.gnmap***\n'
-cat results.gnmap
 
-printf '\n***printing results.xml***\n'
-cat results.xml
+#aws s3 cp results_$d.nmap s3://$S3_BUCKET/vulscan/
+#aws s3 cp results_$d.gnmap s3://$S3_BUCKET/vulscan/
+#aws s3 cp results_$d.xml s3://$S3_BUCKET/vulscan/
+
+
+printf "\n***printing results_$d.gnmap***\n"
+cat results_$d.gnmap
+
+printf "\n***printing results_$d.xml***\n"
+cat results_$d.xml
