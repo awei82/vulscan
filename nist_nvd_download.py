@@ -11,6 +11,7 @@ OUTPUT_NAME = 'nvd_latest.csv'
 
 # https://nvd.nist.gov/vuln/data-feeds
 cve_file_urls = [
+    'https://nvd.nist.gov/feeds/json/cve/1.1/nvdcve-1.1-2020.json.gz',
     'https://nvd.nist.gov/feeds/json/cve/1.1/nvdcve-1.1-2019.json.gz',
     'https://nvd.nist.gov/feeds/json/cve/1.1/nvdcve-1.1-2018.json.gz',
     'https://nvd.nist.gov/feeds/json/cve/1.1/nvdcve-1.1-2017.json.gz',
