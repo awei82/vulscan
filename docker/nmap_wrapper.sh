@@ -14,9 +14,11 @@ fi
 
 d=$(date "+%Y-%m-%d")
 
+echo "nmap -oA results_$d $@"
 nmap -oA results_$d $@
 
-
+mkdir results
+cp results* results/
 #aws s3 cp results_$d.nmap s3://$S3_BUCKET/vulscan/
 #aws s3 cp results_$d.gnmap s3://$S3_BUCKET/vulscan/
 #aws s3 cp results_$d.xml s3://$S3_BUCKET/vulscan/
