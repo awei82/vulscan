@@ -2,12 +2,12 @@
 
 ## Introduction
 
-Vulscan is a module which enhances nmap to a vulnerability scanner. 
-The nmap option -sV enables version detection per service which is used to determine potential flaws 
-according to the identified product. 
+Vulscan is a module which enhances nmap to a vulnerability scanner.
+The nmap option -sV enables version detection per service which is used to determine potential flaws
+according to the identified product.
 ~~The data is looked up in an offline version of VulDB.~~
 
-This repo is a fork of the original vulscan script: https://github.com/scipag/vulscan  
+This repo is a fork of the original vulscan script: <https://github.com/scipag/vulscan>  
 This fork uses the [NIST National Vulnerability Database](https://nvd.nist.gov/vuln/search)
 to link CVEs and CVSS scores to identified service versions.  
 
@@ -31,19 +31,16 @@ You may execute vulscan with the following argument to use a single database:
 
     nmap -sV --script=vulscan/vulscan.nse --script-args vulscandb=[DB Name].csv [scan target]
     nmap -sV --script=vulscan/vulscan.nse --script-args vulscandb=nvd_latest.csv www.example.com
-    
-
+  
 It is also possible to create and reference your own databases. This requires to create a database file, which has the following structure:
 
     <id>;<title>;<vulnerability_score>
-
-
+  
 ## Update Database
 
 Run the following script to get the latest CVE db for Vulnscan
 
     python nist_nvd_download.py
-
 
 ## Version Detection
 
@@ -102,6 +99,11 @@ Supported are the following elements for a dynamic report template:
 Every default database comes with an url and a link, which is used during the scanning and might be accessed as {link} within the customized report template. To use custom database links, use the following argument:
 
     --script-args "vulscandblink=http://example.org/{id}"
+
+## Creating a Docker image for vulscan
+
+Simply run `make docker` to build the docker container for vulscan.  
+Note - the Dockerfile is currently customized with a wrapper script - update this as needed for your use case.
 
 ## Disclaimer
 
