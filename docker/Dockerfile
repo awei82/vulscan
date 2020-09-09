@@ -7,6 +7,9 @@ WORKDIR /usr/share/nmap/scripts/vulscan
 # copy over nvd_latest.csv
 COPY ./nvd_latest.csv .
 
+# copy vulscan.nse
+COPY ./vulscan.nse .
+
 # awscli optional for follow-up aws api calls
 #RUN pip install awscli
 
